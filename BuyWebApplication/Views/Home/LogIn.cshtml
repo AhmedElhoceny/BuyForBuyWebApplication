@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "LogIn";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="~/Source/css/LogIn.css" rel="stylesheet" />
+    <script src="~/Source/js/BackEnd.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+
+</head>
+<body>
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <h2  style="cursor:pointer" class="active"> Sign In </h2>
+            <h2 style="cursor:pointer" onclick="window.location.href = '/Home/SignUp'" class="inactive underlineHover">Sign Up </h2>
+
+
+
+            <!-- Login Form -->
+            <form>
+                <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
+                <input type="password" id="password" class="fadeIn third" name="login" placeholder="password">
+                <input type="button" onclick="LogIn()" class="fadeIn fourth" value="Log In">
+            </form>
+
+            <!-- Remind Passowrd -->
+            <div id="formFooter">
+                <a class="underlineHover" href="#">Forgot Password?</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+    
+        let LogIn = () => {
+
+            let CheckedUserData = {
+                UserName: document.getElementById("login").value,
+                PassWord: document.getElementById("password").value
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/Home/LogInPost',
+                data: { CheckedUserData: CheckedUserData },
+                success: function (data) {
+                    if (data == "Admin") {
+                        window.location.href = "/Admin/WelcomeAdmin"
+                    } else {
+                        if (data == "Exist") {
+                            window.location.href = "/User/ShowUserIndex?UserName=" + document.getElementById("login").value
+                        } else if (data == "OrderManager") {
+                            window.location.href = "/OrderMaster/ShowOrderMasterInfo?UserName=" + document.getElementById("login").value
+                        }
+                        else {
+                            alert("Not Exist");
+                        }
+                    }
+                    
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

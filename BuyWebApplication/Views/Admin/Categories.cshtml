@@ -1,0 +1,99 @@
+﻿@model ICollection<ElMarket.Models.Categories>
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script src="~/Source/js/Categories.js"></script>
+    <title>DashBoard</title>
+</head>
+<body>
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle">
+            <div class="LeftSide">
+                <div onclick="window.location.href='/Admin/WelcomeAdmin'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>Welcome</p>
+                </div>
+                <div onclick="window.location.href='/Admin/ShowClients'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowClients</p>
+                </div>
+                <div onclick="window.location.href='/Admin/ShowOrderMasters'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowOrderMasters</p>
+                </div>
+                <div onclick="window.location.href='/Admin/AddOrderMasters'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>AddOrderMasters</p>
+                </div>
+                <div onclick="window.location.href='/Admin/ShowNewOrder'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowNewOrders</p>
+                </div>
+                <div onclick="window.location.href='/Admin/Categories'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowCategories</p>
+                </div>
+            </div>
+            <div class="BuyProcessesContainer" style="padding: 35px;">
+                <div style=" background-color:transparent; width: 97px; display: flex; flex-direction: row; justify-content: center;">
+                   <button style="height: 47px !important;" class="btn btn-secondary" onclick="ShowAddForm()">Add New Category</button>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">CategoryTitle</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var OperationItem in Model)
+                        {
+                            <tr>
+                                <td>@OperationItem.Title</td>
+                                <td><button onclick="ShowEditForm(@(OperationItem.Categories_Id))" class="btn btn-secondary">Edit</button></td>
+                                <td><a href="/Admin/DeleteCategory?Id=@OperationItem.Categories_Id" class="btn btn-danger">Remove</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <form id="DataForm" method="post" action="/Admin/EditCategory" style=" position: absolute; width: 400px; height: auto; background-color: rgb(63 71 78 / 74%); display: flex; flex-direction: column; justify-items: center; left: 45%; top: 127px; padding: 23px; color: #fff;">
+        <input style="display:none" type="number" id="CartegoryId" name="Categories_Id" />
+        <div class="form-group">
+            <label for="exampleInputEmail1">Category Title</label>
+            <input type="text" class="form-control" id="Category_Title" aria-describedby="emailHelp" placeholder="CategoryTitle" name="Title">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</body>
+</html>

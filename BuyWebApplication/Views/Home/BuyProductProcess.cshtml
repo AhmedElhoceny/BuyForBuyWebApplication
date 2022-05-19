@@ -1,0 +1,235 @@
+﻿@model ElMarket.Models.Product
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="~/Source/css/MainBuyProcess.css" rel="stylesheet" />
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <title>Sixteen Clothing HTML Template</title>
+ 
+    <link href="~/Source/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/Source/css/templatemo-sixteen.css" rel="stylesheet" />
+    <link href="~/Source/css/owl.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Payment Container ***** -->
+    <div class="paymentContainer" style="    position: absolute;
+    top: -100%;
+    width: 40%;
+    left: 27%;
+    transition: top 0.3s ease-in-out 0s;
+    background-color: beige;
+    z-index: 2;
+    border-radius: 14px;
+    padding: 20px;">
+        <div id="smart-button-container">
+            <div style="text-align: center;">
+                <button onclick="CashProcessRun()" style=" width: 99%; border-radius: 31px; height: 52px; background-color: #006f80; color: #fff; font-size: 30px; align-self: center; margin-bottom: 14px; cursor: pointer;border:none">Buy Cash</button>
+                <div id="paypal-button-container"></div>
+            </div>
+        </div>
+        <p style="cursor: pointer;" onclick="document.querySelector('.paymentContainer').style.top = '-100%' ;">Cancel</p>
+    </div>
+
+    <!-- Header -->
+    <header class="" style=" background-color: #bef0ff;">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/Home/Index">
+                                Home
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/Home/ShowProducts?pageNumber=1&Category='All'">Our Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Home/AboutUs">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Home/LogIn">LogIn</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <input type="hidden" value="@Model.Price" id="ProductValue" />
+    <!-- Page Content -->
+    <div class="MainBuyProcessContainer" style="height:auto !important">
+        <div style=" position: relative; top: -54px;">
+            <img src="~/Attachments/@Model.Image">
+            <div style=" margin-top: 23px;">
+                <input id="MessageFrom" type="text" class="form-control" placeholder="Your Name">
+                <input id="ProductMessage" type="text" class="form-control" placeholder="Message">
+                <button style="width: 38%; margin: auto; font-size: 23px;" class="btn btn-primary" onclick="SendMessage()">Send</button>
+            </div>
+        </div>
+        <div>
+            <h3>Product Name : @Model.ProductTitle</h3>
+            <p>Price :  @Model.Price $</p>
+            <p>Description : @Model.Discription</p>
+            <input id="OrderAddress" type="text" class="form-control" placeholder="Address ......" style=" background-color: #fff; border: 2px solid #ddd; width: 301px; height: 51px;">
+            <input id="OrderPhone" type="text" class="form-control" placeholder="Phone ......" style=" background-color: #fff; border: 2px solid #ddd; width: 301px; height: 51px;">
+            <select id="ProcessCountry" name="ProductCategory" style=" width: 40%; height: 53px; padding: 11px; border-radius: 10px; color: #fff; font-size: 20px; color: #6a1b9a; border: 2px solid #6a1b9a94;cursor:pointer" class="mdb-select md-form">
+                <option value="" disabled selected>Country</option>
+                <option value="Egypt">Egypt</option>
+                <option value="USA">USA</option>
+                <option value="China">China</option>
+                <option value="Japan">Japan</option>
+                <option value="Germany">Germany</option>
+                <option value="UK">UK</option>
+                <option value="France">France</option>
+                <option value="India">India</option>
+                <option value="Spain">Spain</option>
+                <option value="Russia">Russia</option>
+                <option value="Sudia">Sudia</option>
+                <option value="Emarate">Emarate</option>
+            </select>
+            <input onchange="getPayedMoney()" type="number" placeholder="Quantity.." id="QuantityInput">
+            <button id="BuyNew" onclick="ShowBuyOptions()">Buy Now</button>
+        </div>
+    </div>
+
+
+    <script src="https://www.paypal.com/sdk/js?client-id=AXugsLcGnO2-Og4q-4lY-fOo5E76hoihY2LTfiWYA5PdUmPdgWZQiuyVmARgyDWx9EmeIwz__dsfgYeX&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+    <script>
+        var PayedMoney = 0;
+        let CashProcessRun = () => {
+            let Country = document.getElementById("ProcessCountry").value;
+            let Quantity = document.getElementById("QuantityInput").value;
+            let Address = document.getElementById("OrderAddress").value;
+            let OrderPhone = document.getElementById("OrderPhone").value;
+            fetch("/Home/CashProcessIsDone?ProductTitle=@(Model.ProductTitle)&Bill=" + PayedMoney + "&Country=" + Country + "&Quantity=" + Quantity + "&Address=" + Address + "&OrderPhone=" + OrderPhone)
+                        .then(res => res.text().then(data => {
+                            if (data == "Done") {
+                                alert("Done ;)")
+                            } else {
+                                alert("Failed :( ")
+                            }
+                        }))
+        }
+        let SendMessage = () =>{
+                let MessageContent = document.getElementById("ProductMessage").value;
+                let MessageFrom = document.getElementById("MessageFrom").value;
+                if(MessageContent != null && MessageContent != "" && MessageFrom != null && MessageFrom != "")
+                {
+                    fetch("/Home/AddMessageToProduct?MessageContent=" + MessageContent + "&MessageFrom=" + MessageFrom + "&ProductTitle=@Model.ProductTitle")
+                        .then(res => res.text().then(data => {
+                            if(data == "Done"){
+                                alert("Done")
+                            }
+                        }))
+                }else{
+                    alert("Failed");
+                }
+
+        }
+
+        let ShowBuyOptions = () => {
+            document.querySelector(".paymentContainer").style.top = "25%";
+        }
+        let getPayedMoney = () => {
+            PayedMoney = document.getElementById("QuantityInput").value * document.getElementById("ProductValue").value;
+        }
+        function initPayPalButton() {
+            paypal.Buttons({
+                style: {
+                    shape: 'pill',
+                    color: 'blue',
+                    layout: 'vertical',
+                    label: 'buynow',
+                },
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            "amount": {
+                                "currency_code": "USD",
+                                "value": PayedMoney
+                            }
+                        }
+                        ]
+                    });
+                },
+
+                onApprove: function (data, actions) {
+                    let Country = document.getElementById("ProcessCountry").value;
+                    let Quantity = document.getElementById("QuantityInput").value;
+                    let Address = document.getElementById("OrderAddress").value;
+                    let OrderPhone = document.getElementById("OrderPhone").value;
+                    fetch("/Home/ProcessIsDone?ProductTitle=@(Model.ProductTitle)&Bill=" + PayedMoney + "&Country=" + Country + "&Quantity=" + Quantity + "&Address=" + Address + "&OrderPhone=" + OrderPhone)
+                        .then(res => res.text().then(data => {
+                            if (data == "Done") {
+                                alert("Done ;)")
+                            } else {
+                                alert("Your Money Is Paied But The Process Is not Saved In The System Please Send a Message To The Admin With all Details Of THe Buy Process To Save It ")
+                            }
+                        }))
+                },
+
+                onError: function (err) {
+                    alert("Failed :(")
+                }
+            }).render('#paypal-button-container');
+        }
+        initPayPalButton();
+    </script>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Additional Scripts -->
+    <script src="~/Source/js/custom.js"></script>
+    <script src="~/Source/js/owl.js"></script>
+    <script src="~/Source/js/slick.js"></script>
+    <script src="~/Source/js/isotope.js"></script>
+    <script src="~/Source/js/accordions.js"></script>
+
+    <script language="text/Javascript">
+
+        cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+        function clearField(t) {                   //declaring the array outside of the
+            if (!cleared[t.id]) {                      // function makes it static and global
+                cleared[t.id] = 1;  // you could use true and false, but that's more typing
+                t.value = '';         // with more chance of typos
+                t.style.color = '#fff';
+            }
+        }
+
+    </script>
+
+
+</body>
+
+</html>

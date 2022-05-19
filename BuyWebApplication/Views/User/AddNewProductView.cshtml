@@ -1,0 +1,98 @@
+﻿@model ICollection<ElMarket.Models.Categories>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>AddNewProductView</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <link href="~/Source/css/AddNewProduct.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script src="~/Source/js/StartCoddeAddNewProduct.js"></script>
+</head>
+<body style="background-color : #fff !important">
+    <input type="hidden" value="@ViewBag.UserId" id="UserId" />
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="container mt-5" style=" margin: auto; position: relative; width: 44%;">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-md-8">
+                    <form id="regForm" action="/User/AddNewProductPost" method="post" enctype="multipart/form-data">
+                        <h1 id="register">New Product</h1>
+                        <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+                        <div class="all-steps" id="all-steps"> <span class="step"><i class="fas fa-file-signature"></i></span> <span class="step"><i class="fab fa-phabricator"></i></span> <span class="step"><i class="fas fa-dollar-sign"></i></span> <span class="step"><i class="fas fa-images"></i></span> <span class="step"><i class="fas fa-prescription-bottle"></i></span></div>
+                        <div class="tab">
+                            <h6>What's Product Name</h6>
+                            <p> <input placeholder="Name..." oninput="this.className = ''" name="ProductName" id="ProdutName"></p>
+                        </div>
+                        <div class="tab">
+                            <h6>What's The Category</h6>
+                            <p>
+                                <select name="ProductCategory" style="width: 100%;
+                                    height: 47px;
+                                    padding: 11px;
+                                    border-radius: 10px;
+                                    color: #fff;
+                                    font-size: 20px;
+                                    color: #6a1b9a;
+                                    border: 2px solid #6a1b9a94;" class="mdb-select md-form">
+                                    <option value="" disabled selected>Choose The Product Category</option>
+                                    @foreach (var Category in Model)
+                                    {
+                                        <option value="@(Category.Title)">@Category.Title</option>
+                                    }
+                                </select>
+                            </p>
+                        </div>
+
+                        <div class="tab">
+                            <h6>What's The Price</h6>
+                            <p><input type="number" placeholder="Price..." oninput="this.className = ''" name="Price" id="Price"></p>
+                        </div>
+                        <div class="tab">
+                            <h6>What's Product Image</h6>
+                            <p><input type="file" class="form-control-file" name="ProductImage"></p>
+                        </div>
+                        <div class="tab">
+                            <h6>Product Discription</h6>
+                            <p>
+                                <div class="md-form">
+                                    <i class="fas fa-pencil-alt prefix"></i>
+                                    <textarea name="ProductDiscription" id="form10" class="md-textarea form-control" rows="3"></textarea>
+                                    <label for="form10">Icon Prefix</label>
+                                </div>
+                            </p>
+                        </div>
+                        <div class="thanks-message text-center" id="text-message">
+                            <img src="https://i.imgur.com/O18mJ1K.png" width="100" class="mb-4">
+                            <h3>Done</h3> <span>The Product Is In Your List</span>
+                        </div>
+                        <div style="overflow:auto;" id="nextprevious">
+                            <div style="float:right;"> <button type="button" id="prevBtn" onclick="nextPrev(-1)"><i class="fa fa-angle-double-left"></i></button> <button type="button" id="nextBtn" onclick="nextPrev(1)"><i class="fa fa-angle-double-right"></i></button> </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

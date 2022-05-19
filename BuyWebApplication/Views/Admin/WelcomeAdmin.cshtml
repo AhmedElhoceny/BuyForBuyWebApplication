@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <title>DashBoard</title>
+</head>
+<body>
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle">
+            <div class="LeftSide">
+                <div onclick="window.location.href='/Admin/WelcomeAdmin'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>Welcome</p>
+                </div>
+                <div onclick="window.location.href='/Admin/ShowClients'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowClients</p>
+                </div>
+                <div onclick="window.location.href='/Admin/ShowOrderMasters'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowOrderMasters</p>
+                </div>
+                <div onclick="window.location.href='/Admin/AddOrderMasters'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>AddOrderMasters</p>
+                </div>
+                <div onclick="window.location.href='/Admin/ShowNewOrder'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowNewOrders</p>
+                </div>
+                <div onclick="window.location.href='/Admin/Categories'">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>ShowCategories</p>
+                </div>
+            </div>
+            <div class="BuyProcessesContainer">
+                <img style=" width: 100%; height: 100%; background-size: contain;" src="~/Source/images/pexels-fauxels-3183132.jpg" />
+            </div>
+        </div>
+    </div>
+</body>
+<

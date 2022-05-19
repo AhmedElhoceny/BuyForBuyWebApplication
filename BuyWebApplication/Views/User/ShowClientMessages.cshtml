@@ -1,0 +1,135 @@
+﻿@model IEnumerable<ElMarket.Models.Messages>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script src="/signalr/hubs"></script>
+
+    <title>DashBoard</title>
+</head>
+<body>
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle">
+            <div class="LeftSide">
+                <div>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>DashBoard</p>
+                </div>
+                <div onclick="ShowAddNewProductView(@ViewBag.UserId)">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Add Item</p>
+                </div>
+                <div onclick="ShowUserOperations('@ViewBag.UserName')">
+                    <i class="fas fa-store-alt"></i>
+                    <p>buying process</p>
+                </div>
+                <div onclick="ShowUserMessages('@ViewBag.UserName')">
+                    <i class="fas fa-envelope"></i>
+                    <p>Messages</p>
+                </div>
+                <div onclick="ShowUserProducts('@ViewBag.UserName')">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Products</p>
+                </div>
+                <div onclick="window.location.href='/User/ShowOrderMasters?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Order Masters</p>
+                </div>
+                <div onclick="window.location.href='/User/Profile?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Profile</p>
+                </div>
+            </div>
+            <div class="BuyProcessesContainer">
+                @foreach (var MessageItem in Model)
+                {
+                    <div class="BuyProcessMessage" style="overflow-y: auto;">
+                        <input type="hidden" value="@MessageItem.id" id="MessageId" />
+                        <div>
+                            <p>@MessageItem.From</p>
+                            <p style="overflow-x: hidden;">@MessageItem.Content</p>
+                        </div>
+                        <i onclick="DeleteMessage(this)" style="color: red;" class="fas fa-times"></i>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var ChatHub;
+
+        $(function () {
+
+            ChatHub = $.connection.main;
+
+            ChatHub.client.recieveMessage = OnRecieve;
+            
+            $.connection.hub.start().then(function () { console.log("Connecting ....") }).catch(err => console.error(err.toString()));  
+
+        });
+        let MessagesContainer = document.querySelector(".BuyProcessesContainer");
+
+        var OnRecieve = function (MessageFrom , MessageContent) {
+               let MessageDiv = document.createElement("div");
+                MessageDiv.className = "BuyProcessMessage";
+                MessageDiv.style.overflowY = "auto";
+                let MessageContent2 = document.createElement("div");
+                let MessageSender = document.createElement("p");
+                MessageSender.innerText = MessageFrom;
+                let ExactMessage = document.createElement("p");
+                ExactMessage.style.overflowX = "hidden";
+                ExactMessage.innerText = MessageContent;
+                MessageContent2.append(MessageSender);
+                MessageContent2.append(ExactMessage);
+                MessageDiv.append(MessageContent2);
+                MessagesContainer.append(MessageDiv); 
+        }
+
+
+
+
+        let DeleteMessage = (element) => {
+            let RemovedElement = element.parentElement;
+            RemovedElement.style.display = "none";
+            fetch("/User/DeleteMessage?MessageId=" + RemovedElement.querySelector("#MessageId").value)
+                .then(res => {
+                    res.text().then(data => console.log(data))
+                })
+        }
+        var ShowAddNewProductView = (UserId) => {
+            window.location.href = "/User/AddNewProductView?UseId=" + UserId;
+        }
+        var ShowUserOperations = (UserName) => {
+            window.location.href = "/User/ShowAllBuyProcesses?UserName=" + UserName;
+        }
+        var ShowUserMessages = (UserName) => {
+            window.location.href = "/User/ShowClientMessages?UserName=" + UserName;
+        }
+        var ShowUserProducts = (UserName) => {
+            window.location.href = "/User/ShowUserProduct?UserName=" + UserName + "&Category=" + null;
+        }
+    </script>
+</body>
+</html>

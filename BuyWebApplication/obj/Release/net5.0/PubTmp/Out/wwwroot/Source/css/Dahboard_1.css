@@ -1,0 +1,432 @@
+* {
+    border: none;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.container10 {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: start
+}
+
+
+    /* ************Nav******************** */
+
+    .container10 .nav {
+        align-self: center;
+        width: 100%;
+        height: 60px;
+        background-color: #3f474e;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        color: #ddd;
+        z-index: 2;
+    }
+
+        .container10 .nav .nav_Left,
+        .container10 .nav .nav_Right {
+            width: 30%;
+            height: 100%;
+            align-self: center;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+
+            .container10 .nav .nav_Left > h2 {
+                align-self: left;
+            }
+
+            .container10 .nav .nav_Left > i,
+            .container10 .nav .nav_Right > i {
+                margin-right: 36px;
+                color: #e2e2e2;
+                font-size: 27px;
+                align-self: center;
+                cursor: pointer;
+            }
+
+            .container10 .nav .nav_Left > p {
+                color: #fff !important;
+                font-size: 20px;
+                font-weight: 100;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                line-height: 48px;
+            }
+/* *******************Middle*********************** */
+
+/* *******************Left********************** */
+
+.Middle {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: start;
+    background-color: #3f474e;
+}
+
+    .Middle .LeftSide {
+        width: 17%;
+        height: 100%;
+        background-color: #3f474e;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: start;
+    }
+
+        .Middle .LeftSide > div {
+            width: 100%;
+            height: 45px;
+            align-self: center;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: start;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+
+            .Middle .LeftSide > div:hover {
+                background-color: #57616b;
+            }
+
+            .Middle .LeftSide > div > p {
+                color: #ddd;
+                font-size: 21px;
+                align-self: center;
+                margin-left: 10px;
+            }
+
+            .Middle .LeftSide > div > i {
+                color: #ddd;
+                font-size: 21px;
+                margin-left: 10px;
+                align-self: center;
+            }
+/* *******************Right********************** */
+.rightSide {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: start;
+    width: 88%;
+}
+
+    .rightSide .Child1 {
+        align-self: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+        .rightSide .Child1 div {
+            border-radius: 10px;
+            width: 307px;
+            height: 202px;
+            display: flex;
+            color: #fff;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            margin: 30px;
+        }
+
+            .rightSide .Child1 div i {
+                font-size: 68px;
+                margin-top: 14px;
+                align-self: center;
+                height: 43px;
+            }
+
+            .rightSide .Child1 div p.Title {
+                color: #ddd;
+                font-size: 35px;
+                height: 2px;
+                align-self: center;
+            }
+
+            .rightSide .Child1 div p.Value {
+                color: #ddd;
+                font-size: 25px;
+                align-self: center;
+            }
+/* ***********************Child2******************** */
+.Child2 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-self: center;
+    margin-top: 31px;
+    margin-bottom: 20px;
+}
+
+    .Child2 .ChartElement {
+        background-color: #f1f4f7;
+        border-radius: 10px;
+        width: 90%;
+        height: 364px;
+        display: flex;
+        color: #fff;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        margin: auto;
+        align-self: center;
+    }
+
+* {
+    border: none;
+}
+
+.Child2 .Messages {
+    background-color: #f1f4f7;
+    border-radius: 10px;
+    width: 461px;
+    height: 364px;
+    display: flex;
+    color: #fff;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: start;
+    overflow-y: auto;
+    align-self: center;
+}
+
+    .Child2 .Messages > div {
+        background-color: #e5eaef;
+        width: 95%;
+        height: 45px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-self: center;
+        margin-top: 8px;
+        justify-content: start;
+        border-radius: 5px;
+        padding: 4px;
+    }
+
+        .Child2 .Messages > div > p {
+            font-size: 16px;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            align-self: center;
+            overflow-x: hidden;
+        }
+
+            .Child2 .Messages > div > p:nth-of-type(1) {
+                color: rgb(96 94 94);
+                font-size: 19px !important;
+                font-weight: 800;
+                margin-right: 10px;
+            }
+/* *********************************************** */
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+/* **************************** */
+.BuyProcessingAnalysis {
+    width: 345px !important;
+}
+
+.BuyProcessesContainer {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: start;
+    width: 88%;
+    height: 693px;
+    overflow-y: auto;
+}
+
+    .BuyProcessesContainer > div {
+        align-self: center;
+        width: 90%;
+        height: 70px;
+        background-color: #343a3fcf;
+        border-radius: 5px;
+        margin: 10px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        color: #fff;
+        font-size: 25px;
+    }
+
+        .BuyProcessesContainer > div > div {
+            align-self: center;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: start;
+        }
+
+        .BuyProcessesContainer > div > i {
+            align-self: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .BuyProcessesContainer > div > div > p {
+            align-self: center;
+            margin: 10px;
+        }
+/* ***************************************** */
+.CenterTitle {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    color: #3f474e;
+    font-size: 25px;
+}
+
+    .CenterTitle i {
+        color: #3f474e;
+        font-size: 25px;
+        margin-right: 20px;
+    }
+/* ******************************************** */
+.ProductsFooter div {
+    transition: width 0.3s linear, height 0.3s linear;
+}
+
+
+
+    .ProductsFooter div:hover {
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    .ProductsFooter div i:hover {
+        font-size: 40px;
+    }
+
+.ProductsContainer {
+    width: 90% !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: start !important;
+}
+
+    .ProductsContainer div {
+        width: 230px;
+        height: 235px;
+        background-color: #ddd;
+        border-radius: 10px;
+        border: none;
+        margin: 25px !important;
+        cursor: pointer;
+        transition: width 0.3s linear, height 0.3s linear;
+        display: flex !important;
+        flex-direction: column !important;
+        flex-wrap: nowrap !important;
+        justify-content: start !important;
+    }
+
+        .ProductsContainer div:hover {
+            width: 240px;
+            height: 245px;
+        }
+
+        .ProductsContainer div img {
+            width: 100%;
+            height: 60%;
+            border-radius: 8px;
+            border-end-end-radius: 0px;
+            border-end-start-radius: 0px;
+        }
+
+        .ProductsContainer div p {
+            align-self: center;
+            color: #23b623 !important;
+            font-size: 37px !important;
+        }
+
+        .ProductsContainer div i {
+            align-self: center;
+            color: #23b623 !important;
+            font-size: 33px !important;
+        }
+.OptionsMenu {
+    width: 293px;
+    height: 175px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    background-color: #005affd4;
+    border: none;
+    border-radius: 10px;
+    position: absolute;
+    top: -100%;
+    left: 40%;
+    transition: top 0.3s ease-in-out;
+}
+
+    .OptionsMenu div {
+        width: 174px;
+        height: 48px;
+        border-radius: 5px;
+        border: none;
+        align-self: center;
+        margin: 10px;
+        color: #fff;
+        font-size: 25px;
+        font-weight: 800;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .OptionsMenu > p {
+        align-self: center;
+        color: #fff;
+        font-size: 18px;
+        text-decoration: underline;
+        cursor: pointer;
+        margin-top: 0px;
+    }
+
+    .OptionsMenu div * {
+        align-self: center;
+    }
+
+    .OptionsMenu div:nth-of-type(1) {
+        background-color: red;
+    }
+
+    .OptionsMenu div:nth-of-type(2) {
+        background-color: rgb(32 189 51);
+    }

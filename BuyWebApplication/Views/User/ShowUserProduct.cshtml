@@ -1,0 +1,126 @@
+﻿@model ElMarket.ViewModels.ListUserProductsViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <title>DashBoard</title>
+</head>
+<body>
+    <input type="hidden" id="CheckedElementAction" value=""/>
+    <input type="hidden" id="UserName" value="@ViewBag.UserName" />
+    <div class="OptionsMenu">
+        <div onclick="DeleteProduct()">
+            <p>Delete</p>
+            <i class="fas fa-trash-alt"></i>
+        </div>
+        <div onclick="EditProduct()">
+            <p>Edit</p>
+            <i class="fas fa-edit"></i>
+        </div>
+        <p onclick="CancelMenu()">cancel</p>
+    </div>
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle">
+            <div class="LeftSide">
+                <div>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>DashBoard</p>
+                </div>
+                <div onclick="ShowAddNewProductView(@ViewBag.UserId)">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Add Item</p>
+                </div>
+                <div onclick="ShowUserOperations('@ViewBag.UserName')">
+                    <i class="fas fa-store-alt"></i>
+                    <p>buying process</p>
+                </div>
+                <div onclick="ShowUserMessages('@ViewBag.UserName')">
+                    <i class="fas fa-envelope"></i>
+                    <p>Messages</p>
+                </div>
+                <div onclick="ShowUserProductsNav('@ViewBag.UserName')">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Products</p>
+                </div>
+                <div onclick="window.location.href='/User/ShowOrderMasters?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Order Masters</p>
+                </div>
+                <div onclick="window.location.href='/User/Profile?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Profile</p>
+                </div>
+            </div>
+            <div class="BuyProcessesContainer" style="justify-content:space-between">
+                <div class="ProductsContainer" style="flex-flow: column nowrap;display: flex;height: auto;">
+                    @foreach (var ProductItem in Model.UserProducts)
+                    {
+                        <div onclick="ShowOptions(this)">
+                            @if (ProductItem.Image == "")
+                            {
+                                <img src="./Source/images/Product.jpg" />
+                            }
+                            else
+                            {
+                                <img src="~/Attachments/@(ProductItem.Image)">
+                            }
+
+                            <p class="Producttitle" style="font-size: 25px !important; height: 6px; margin-top: 3px;">@ProductItem.ProductTitle</p>
+                            <p style=" height: 25px;">@ProductItem.Price</p>
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                    }
+                </div>
+                <div class="ProductsFooter" style=" position: fixed; bottom: 10px; z-index: 2; width: auto; left: 36%; padding-right: 45px; justify-content: space-evenly; padding-left: 45px;">
+                    @foreach (var categoryItem in Model.AllCategories)
+                    {
+                        <a style=" margin-left: 25px; margin-top: 20px; color: #fff; text-decoration: none" class="btn btn-primary" href="/User/ShowUserProduct?UserName=@(ViewBag.UserName)&Category=@categoryItem.Title">@categoryItem.Title</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let ShowUserProducts = (Category) => {
+            window.location.href = "/User/ShowUserProduct?UserName=@(ViewBag.UserName)&Category=" + Category;
+        }
+        var EditProduct = () => {
+            let CheckedProduct = document.querySelector("#CheckedElementAction").value;
+            window.location.href = "/User/EditProductView?ProductTitle=" + CheckedProduct + "&UserName=@(ViewBag.UserName)";
+        }
+        var ShowAddNewProductView = (UserId) => {
+            window.location.href = "/User/AddNewProductView?UseId=" + UserId;
+        }
+        var ShowUserOperations = (UserName) => {
+            window.location.href = "/User/ShowAllBuyProcesses?UserName=" + UserName;
+        }
+        var ShowUserMessages = (UserName) => {
+            window.location.href = "/User/ShowClientMessages?UserName=" + UserName;
+        }
+        var ShowUserProductsNav = (UserName) => {
+            window.location.href = "/User/ShowUserProduct?UserName=" + UserName + "&Category=" + null;
+        }
+    </script>
+
+</body>
+</html>

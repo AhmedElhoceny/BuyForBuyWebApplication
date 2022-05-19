@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "LogIn";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head> 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="~/Source/css/LogIn.css" rel="stylesheet" />
+    <script src="~/Source/js/BackEnd.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+</head>
+<body>
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <h2 class="inactive underlineHover" onclick="window.location.href = '/Home/LogIn'" style="cursor:pointer" > Sign In </h2>
+            <h2  class="active" style="cursor:pointer">Sign Up </h2>
+
+            <!-- Login Form -->
+            <form>
+                <input type="text" id="UserName" class="fadeIn second" name="UserName" placeholder="UserName">
+                <input type="email" id="Email" class="fadeIn second" name="Email" placeholder="Email.....">
+                <input type="tel" id="Mobile" class="fadeIn second" name="Mobile" placeholder="Mobile.....">
+                <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+                <input type="password" id="ConfirmPassWord" class="fadeIn third" name="ConfirmPassWord" placeholder="ConfirmPassWord">
+                <input type="button" onclick="SignUp()" class="fadeIn fourth" value="Log In">
+            </form>
+
+        </div>
+    </div>
+
+
+</body>
+</html>
+

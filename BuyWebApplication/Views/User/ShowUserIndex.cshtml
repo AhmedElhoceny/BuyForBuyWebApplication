@@ -1,0 +1,138 @@
+﻿@model IEnumerable<ElMarket.ViewModels.CountryStatistics>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <title>DashBoard</title>
+</head>
+<body>
+
+    <input type="hidden" id="Egypt" value="@Model.Where(x => x.Country == "Egypt").FirstOrDefault().Value" />
+    <input type="hidden" id="USA" value="@Model.Where(x => x.Country == "USA").FirstOrDefault().Value" />
+    <input type="hidden" id="China" value="@Model.Where(x => x.Country == "China").FirstOrDefault().Value" />
+    <input type="hidden" id="Japan" value="@Model.Where(x => x.Country == "Japan").FirstOrDefault().Value" />
+    <input type="hidden" id="Germany" value="@Model.Where(x => x.Country == "Germany").FirstOrDefault().Value" />
+    <input type="hidden" id="UK" value="@Model.Where(x => x.Country == "UK").FirstOrDefault().Value" />
+    <input type="hidden" id="France" value="@Model.Where(x => x.Country == "France").FirstOrDefault().Value" />
+    <input type="hidden" id="India" value="@Model.Where(x => x.Country == "India").FirstOrDefault().Value" />
+    <input type="hidden" id="Spain" value="@Model.Where(x => x.Country == "Spain").FirstOrDefault().Value" />
+    <input type="hidden" id="Russia" value="@Model.Where(x => x.Country == "Russia").FirstOrDefault().Value" />
+    <input type="hidden" id="Sudia" value="@Model.Where(x => x.Country == "Sudia").FirstOrDefault().Value" />
+    <input type="hidden" id="Emarate" value="@Model.Where(x => x.Country == "Emarate").FirstOrDefault().Value" />
+
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle">
+            <div class="LeftSide">
+                <div>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>DashBoard</p>
+                </div>
+                <div onclick="ShowAddNewProductView(@ViewBag.UserId)">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Add Item</p>
+                </div>
+                <div onclick="ShowUserOperations('@ViewBag.UserName')">
+                    <i class="fas fa-store-alt"></i>
+                    <p>buying process</p>
+                </div>
+                <div onclick="ShowUserMessages('@ViewBag.UserName')">
+                    <i class="fas fa-envelope"></i>
+                    <p>Messages</p>
+                </div>
+                <div onclick="ShowUserProducts('@ViewBag.UserName')">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Products</p>
+                </div>
+                <div onclick="window.location.href='/User/ShowOrderMasters?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Order Masters</p>
+                </div>
+                <div onclick="window.location.href='/User/Profile?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Profile</p>
+                </div>
+            </div>
+            <div class="rightSide">
+                <div class="Child1">
+                    <div style="background-color: #fd7e14;">
+                        <i class="fab fa-sellsy"></i>
+                        <p class="Title">Selling</p>
+                        <p class="Value" id="SellingValue">@ViewBag.Operation</p>
+                    </div>
+                    <div style="background-color: #20c997;">
+                        <i class="fas fa-store"></i>
+                        <p class="Title">Storage</p>
+                        <p class="Value">100</p>
+                    </div>
+                    <div style="background-color: #6610f2;">
+                        <i class="fas fa-star-half-alt"></i>
+                        <p class="Title">Grade</p>
+                        <p class="Value">@ViewBag.Grade %</p>
+                    </div>
+                </div>
+                <div class="Child2">
+                    <div class="ChartElement">
+                        <div id="chartdiv"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+         var ChatHub;
+
+        $(function () {
+
+            ChatHub = $.connection.main;
+
+            ChatHub.client.ChangeStatistics = ChangeStatisticsProcess;
+            
+            $.connection.hub.start().then(function () { console.log("Connecting ....") }).catch(err => console.error(err.toString()));  
+
+        });
+        
+
+             let ChangeStatisticsProcess = ()=>{
+     var Value = parseInt(document.getElementById("SellingValue").innerText)
+     Value++;
+     document.getElementById("SellingValue").innerText = String(Value); var Value = parseInt(document.getElementById("SellingValue").innerText)       
+        }
+
+        var ShowAddNewProductView = (UserId) => {
+            window.location.href = "/User/AddNewProductView?UseId=" + UserId;
+        }
+        var ShowUserOperations = (UserName) => {
+            window.location.href = "/User/ShowAllBuyProcesses?UserName=" + UserName;
+        }
+        var ShowUserMessages = (UserName) => {
+            window.location.href = "/User/ShowClientMessages?UserName=" + UserName;
+        }
+        var ShowUserProducts = (UserName) => {
+            window.location.href = "/User/ShowUserProduct?UserName=" + UserName + "&Category=" + null;
+        }
+    </script>
+</body>
+</html>

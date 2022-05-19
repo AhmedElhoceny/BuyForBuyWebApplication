@@ -1,0 +1,154 @@
+﻿@model IEnumerable<ElMarket.Models.BuyOperation>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <title>DashBoard</title>
+</head>
+<body>
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle">
+            <div class="LeftSide">
+                <div>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>DashBoard</p>
+                </div>
+                <div onclick="ShowAddNewProductView(@ViewBag.UserId)">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Add Item</p>
+                </div>
+                <div onclick="ShowUserOperations('@ViewBag.UserName')">
+                    <i class="fas fa-store-alt"></i>
+                    <p>buying process</p>
+                </div>
+                <div onclick="ShowUserMessages('@ViewBag.UserName')">
+                    <i class="fas fa-envelope"></i>
+                    <p>Messages</p>
+                </div>
+                <div onclick="ShowUserProducts('@ViewBag.UserName')">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Products</p>
+                </div>
+                <div onclick="window.location.href='/User/ShowOrderMasters?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Order Masters</p>
+                </div>
+                <div onclick="window.location.href='/User/Profile?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Profile</p>
+                </div>
+            </div>
+            <div class="BuyProcessesContainer">
+                <div style=" background-color:transparent; width: 97px; display: flex; flex-direction: row; justify-content: center;">
+                    <h3 style="align-self: center; color: green; font-family: system-ui;">@ViewBag.TotalMoney</h3>
+                    <i style="color: green; align-self: center; font-size: 35px; position: relative; top: -3px;" class="fas fa-pound-sign"></i>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ProductId</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Bill</th>
+                            <th scope="col">ProductTime</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var OperationItem in Model)
+                        {
+                            <input value="@OperationItem.OpeartionId" type="hidden" id="OpeartionId" />
+                            <tr>
+                                <td>@OperationItem.ProductId</td>
+                                <td>@OperationItem.Quantity</td>
+                                <td>@OperationItem.Bill</td>
+                                <td>@OperationItem.ProductTime</td>
+                                <td>
+                                    <i onclick="Remove(this)" class="fas fa-backspace" style="color: red; font-size: 24px; cursor: pointer;"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        var ChatHub;
+
+        $(function () {
+
+            ChatHub = $.connection.main;
+
+            ChatHub.client.recieveProcessDetails = AddRealTimeBuyProcess;
+            
+            $.connection.hub.start().then(function () { console.log("Connecting ....") }).catch(err => console.error(err.toString()));  
+
+        });
+        let MessagesContainer = document.querySelector(".BuyProcessesContainer");
+
+        let AddRealTimeBuyProcess = (productId , Quantity , Bill , Time)=>{
+            let TR = document.createElement("tr");
+            let ProductId = document.createElement("td");
+            ProductId.innerHTML = productId;
+            let ProductQuantity = document.createElement("td");
+            ProductQuantity.innerHTML = Quantity;
+            let PaiyedBill = document.createElement("td");
+            PaiyedBill.innerHTML = Bill; 
+            let ProductTime = document.createElement("td");
+            ProductTime.innerText = Time;
+            TR.append(ProductId);
+            TR.append(ProductQuantity);
+            TR.append(PaiyedBill);
+            TR.append(ProductTime);
+            document.querySelector("table tbody").append(TR);
+        }
+
+        let Remove = (element) => {
+            let RemovedElement = element.parentElement.parentElement;
+            RemovedElement.style.display = "none";
+            fetch("/User/DeleteOperationInfo?OperationId=" + RemovedElement.parentElement.querySelector("#OpeartionId").value)
+                .then(res => {
+                    res.text().then(data => console.log(data))
+                })
+        }
+        var ShowAddNewProductView = (UserId) => {
+            window.location.href = "/User/AddNewProductView?UseId=" + UserId;
+        }
+        var ShowUserOperations = (UserName) => {
+            window.location.href = "/User/ShowAllBuyProcesses?UserName=" + UserName;
+        }
+        var ShowUserMessages = (UserName) => {
+            window.location.href = "/User/ShowClientMessages?UserName=" + UserName;
+        }
+        var ShowUserProducts = (UserName) => {
+            window.location.href = "/User/ShowUserProduct?UserName=" + UserName + "&Category=" + null;
+        }
+    </script>
+</body>
+</html>

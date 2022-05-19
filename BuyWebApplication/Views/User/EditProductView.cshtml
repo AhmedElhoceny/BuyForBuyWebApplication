@@ -1,0 +1,125 @@
+﻿@model ICollection<ElMarket.Models.Categories>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Source/css/EditProduct.css" rel="stylesheet" />
+
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Source/js/EditProduct.js"></script>
+    <title>DashBoard</title>
+</head>
+<body>
+    <input type="hidden" value="@ViewBag.UserName" id="UserName" />
+    <input type="hidden" value="@ViewBag.OldTitle" id="OldProductTitle" />
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle" style="background-color: #fff;">
+            <div style="background-color: #fff;width: 50%;height: 700px;">
+                <form style="margin: 20px;">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Product Title</label>
+                        <input onblur="ChangeProductTitle(this)" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Product Title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Price</label>
+                        <input onblur="ChangeProductPrice(this)" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Price">
+                    </div>
+                    <div class="form-group">
+                        <div class="md-form">
+                            <label for="form7">Product Description</label>
+                            <textarea onblur="ChangeProductDiscription(this)" id="form7" class="md-textarea form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select id="ProductCategory" class="custom-select">
+                            <option value="" disabled selected>Choose The Product Category</option>
+                            @foreach (var categoryItem in Model)
+                            {
+                                <option value="@categoryItem.Title">@categoryItem.Title</option>
+                            }
+                        </select>
+                    </div>
+                    <button style="width: 123px;
+                    height: 47px;
+                    font-size: 25px;
+                    font-weight: 100;
+                    font-family: system-ui;
+                    padding: 0px !important;" class="btn btn-success" onclick="SubmitData()">
+                        Save
+                    </button>
+                </form>
+            </div>
+            <div class="RightSideEditProduct" style="background-color: seagreen;width: 50%;height: 700px;">
+                <p id="ProductTitle"></p>
+                <p id="ProductPrice">
+
+                    <i class="fas fa-dollar-sign"></i>
+                </p>
+                <p id="ProductDescription"></p>
+                <div class="form-group">
+                    <div class="file-upload" style="background-color: seagreen;">
+                        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+
+                        <div class="image-upload-wrap">
+                            <input id="ProductImage" class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+                            <div class="drag-text">
+                                <h3>Drag and drop a file or select add Image</h3>
+                            </div>
+                        </div>
+                        <div class="file-upload-content">
+                            <img class="file-upload-image" src="#" alt="your image" />
+                            <div class="image-title-wrap">
+                                <button style="height: 72px;" type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = () => {
+            fetch('/User/GetProductData?ProductTitle=@(ViewBag.OldTitle)')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("ProductTitle").innerText = data["ProductTitle"];
+                    document.getElementById("ProductPrice").innerText = data["Price"];
+                    document.getElementById("ProductDescription").innerText = data["Discription"];
+                });
+        }
+        var ShowAddNewProductView = (UserId) => {
+            window.location.href = "/User/AddNewProductView?UseId=" + UserId;
+        }
+        var ShowUserOperations = (UserName) => {
+            window.location.href = "/User/ShowAllBuyProcesses?UserName=" + UserName;
+        }
+        var ShowUserMessages = (UserName) => {
+            window.location.href = "/User/ShowClientMessages?UserName=" + UserName;
+        }
+        var ShowUserProducts = (UserName) => {
+            window.location.href = "/User/ShowUserProduct?UserName=" + UserName + "&Category=" + null;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿@model ElMarket.Models.Product
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="~/Source/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Source/css/Dahboard_1.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="~/Source/js/DashBoard_1.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <title>DashBoard</title>
+</head>
+<body>
+    <div class="container10">
+        <div class="nav">
+            <div class="nav_Left">
+                <img style="width: 105px; height: 85px; position: absolute; top: 2px; left: 46px;" src="~/Source/images/1.png" />
+            </div>
+            <div class="nav_Right">
+                <i class="fas fa-sign-out-alt" onclick="window.location.href='/Home/Index'"></i>
+            </div>
+        </div>
+        <div class="Middle">
+            <div class="LeftSide">
+                <div>
+                    <i class="fas fa-tachometer-alt"></i>
+                    <p>Welcome</p>
+                </div>
+                <div onclick="window.location.href='/OrderMaster/ShowOrderMasterInfo?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Orders</p>
+                </div>
+                <div onclick="window.location.href='/OrderMaster/ShowProdile?UserName=@ViewBag.UserName'">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Profile</p>
+                </div>
+            </div>
+            <div class="BuyProcessesContainer">
+                <form style=" width: 75%; margin: auto; margin-top: 27px;">
+                    <div class="form-group">
+                        <label>Product Title</label>
+                        <input type="text" class="form-control" disabled value="@Model.ProductTitle">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" class="form-control" disabled value="@Model.Price">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" class="form-control" disabled value="@Model.Category">
+                    </div>
+                    <div class="form-group">
+                        <label>Discription</label>
+                        <input type="text" class="form-control" disabled value="@Model.Discription">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
